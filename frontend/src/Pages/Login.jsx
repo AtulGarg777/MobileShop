@@ -13,7 +13,8 @@ export default function Login() {
     const navigate = useNavigate();
 
     async function submitForm(data) {
-        let response = await fetch('http://localhost:8000/api/auth/login', {
+        let baseUrl = import.meta.env.VITE_API_URL;
+        let response = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/auth/login`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

@@ -12,7 +12,8 @@ export default function Signup() {
     async function submitForm(data) {
         console.log("aifg");
 
-        const response = await fetch('http://localhost:8000/api/auth/signup', {
+        let baseUrl = import.meta.env.VITEAPI_URL;
+        const response = await fetch(`${baseUrl.replace(/\/+$/, '')}/api/auth / signup`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
