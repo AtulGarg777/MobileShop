@@ -19,6 +19,8 @@ export default function Home() {
     const [priceIdx, setPriceIdx] = useState(0)
 
     useEffect(() => {
+        console.log(import.meta.env.VITE_API_URL);
+
         let baseUrl = import.meta.env.VITE_API_URL;
         fetch(`${baseUrl.replace(/\/+$/, "")}/products`)
             .then((r) => r.json())
