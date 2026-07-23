@@ -1,7 +1,7 @@
 import { Navigate, useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
-    const { name, brand, price, mainImage, rating, reviewCount, stock, features } = product;
+    const { name, brand, price, mainImage, rating, reviewCount, stock, features, _id } = product;
     const navigate = useNavigate();
 
     const stars = [1, 2, 3, 4, 5].map(s => (
@@ -12,11 +12,24 @@ export default function ProductCard({ product }) {
         fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`).then((r) => r.json()).then((res) => {
             if (res.success) {
                 navigate(`/products/${id}`, { state: { data: res.data } })
+
             } else {
                 console.error(res);
 
             }
         }).catch((err) => console.error(err));
+    }
+
+    function addToCart(id) {
+        //     let user = localStorage.getItem('userId');
+        //     let addItem = fetch(`${import.meta.env.VITE_API_URL}/api/products`,
+        //         {
+        //             method: 'POST',
+        //             body: JSON.stringify({
+        //                 productId: id,
+        //                 userId: user
+        //             })
+        //         })
     }
 
     return (
@@ -49,7 +62,7 @@ export default function ProductCard({ product }) {
                     <span className="text-base font-bold text-cyan-300" style={{ width: "-webkit-fill-available" }}>₹{price?.toLocaleString('en-IN')}</span>
                     <button
                         disabled={stock === 0}
-                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}`}
+                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}`} onClick={() => addToCart(product._id)}
                     > Add To Cart
                     </button>
                     <button

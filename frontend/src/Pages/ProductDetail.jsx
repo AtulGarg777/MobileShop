@@ -10,7 +10,7 @@ const ProductDetail = () => {
         return (<div>Error Occured In Fetching Data! Try Again</div>)
     }
 
-    let { name, brand, category, price, currency, description, mainImage, features, colors, rating, reviewCount, stock, isFeatured } = navigationData.data;
+    let { name, brand, category, price, currency, description, mainImage, features, colors, rating, reviewCount, stock, isFeatured, _id } = navigationData.data;
 
 
 
@@ -21,16 +21,6 @@ const ProductDetail = () => {
             "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=800&q=80"
         ],
-        features: {
-            processor: "A17 Pro",
-            ram: "8GB",
-            storage: "256GB",
-            display: "6.7-inch Super Retina XDR OLED",
-            battery: "4441 mAh",
-            operatingSystem: "iOS 17",
-            connectivity: ["5G", "Wi-Fi 6E", "Bluetooth 5.3", "NFC"],
-            biometrics: "Face ID"
-        },
     };
 
     const [activeImage, setActiveImage] = useState(mainImage);
@@ -42,6 +32,25 @@ const ProductDetail = () => {
         currency: currency,
         maximumFractionDigits: 0
     }).format(price);
+
+
+    function addToCart(id) {
+        let user = localStorage.getItem('userId');
+
+        try {
+            fetch(`${import.meta.env.VITE_API_URL}/api/user/addtocart`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        productId: id,
+                        userId: user
+                    }),
+                    headers: { "Content-Type": "application/json" }
+                })
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <>
@@ -190,7 +199,7 @@ const ProductDetail = () => {
                                 className={`flex-1 py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 ${stock > 0
                                     ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-[0_4px_20px_rgba(79,70,229,0.4)] hover:shadow-[0_6px_25px_rgba(79,70,229,0.6)] hover:-translate-y-1'
                                     : 'bg-gray-800 text-gray-500 cursor-not-allowed'
-                                    }`}
+                                    }`} onClick={() => addToCart(_id)}
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                 {stock > 0 ? 'Add to Cart' : 'Out of Stock'}

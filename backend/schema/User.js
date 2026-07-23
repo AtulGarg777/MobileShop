@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
         cityState: { type: String },
         addressLine: { type: String }
     },
-    cart: [String]
+    cart: [{ type: String, unique: true, trim: true }]
 }, { timestamps: true });
 
 module.exports = { userSchema };

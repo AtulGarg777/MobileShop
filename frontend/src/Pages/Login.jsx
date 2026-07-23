@@ -29,9 +29,10 @@ export default function Login() {
         if (result.success) {
             localStorage.setItem("token", result.jwtToken);
             localStorage.setItem('username', result.user);
+            localStorage.setItem('userId', result._id);
             navigate('/home');
         } else {
-            setError('Error Occured! Try Again');
+            setError('Password or Email May Be Wrong! try again');
             setTimeout(() => {
                 navigate('/auth/login');
             }, 1000);
@@ -75,7 +76,8 @@ export default function Login() {
                         type="submit"
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-lg transition mt-1"
                     >
-                        {loading ? "Loading..." : "Login"}
+                        {error ? 'Login' : loading ? "Loading..." : "Login"}
+                        {/* {error} */}
                     </button>
 
                     <p className="text-center text-sm text-gray-500">
@@ -84,7 +86,7 @@ export default function Login() {
                             Create Account
                         </Link>
                     </p>
-                    {error}
+                    <span className="text-red-500">{error}</span>
                 </form>
             </div>
         </div>

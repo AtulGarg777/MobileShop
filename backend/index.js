@@ -6,7 +6,9 @@ const Auth_route = require('./Routes/Auth_route');
 const cors = require('cors');
 const { productModel } = require('./models/Product');
 app.use(cors());
-const Products = require('./Routes/Products')
+const Products = require('./Routes/Products');
+// const CartRoute = require('./Routes/CartRoute');
+const UserRoute = require('./Routes/UserRoute');
 
 app.use(express.json());
 
@@ -23,7 +25,9 @@ mongoose.connect(process.env.VITE_MONGO_URI).then(() => {
     console.error("mongo db connection failed");
 })
 
+app.use('/api/user', UserRoute);
 app.use('/api/auth', Auth_route);
+// app.use('/api/cart', CartRoute);
 app.use('/api/products', Products);
 
 app.get('/', (req, res) => {
