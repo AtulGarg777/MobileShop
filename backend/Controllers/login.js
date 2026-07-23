@@ -20,8 +20,7 @@ const login = async (req, res) => {
             process.env.VITE_JWT_SECRET,
             { expiresIn: '24h' })
 
-        console.log("login success");
-        res.status(200).json({ message: "login successfully", success: true, jwtToken })
+        res.status(200).json({ message: "login successfully", success: true, jwtToken, user: user['name'] })
 
     }
     catch (err) {

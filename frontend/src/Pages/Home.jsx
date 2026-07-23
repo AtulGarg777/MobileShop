@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import ProductCard from './ProductCard';
+import Navbar from './Navbar';
 
 const brands = ['All', 'Apple', 'Samsung', 'Google', 'OnePlus', 'Xiaomi', 'Motorola', 'Sony', 'Asus', 'Vivo', 'Oppo', 'Realme', 'Huawei', 'Honor', 'Nokia']
 
@@ -16,22 +17,23 @@ export default function Home() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [brand, setBrand] = useState('All')
-    const [priceIdx, setPriceIdx] = useState(0)
+    const [priceIdx, setPriceIdx] = useState(0);
 
     useEffect(() => {
-        console.log(import.meta.env.VITE_API_URL);
-
         let baseUrl = import.meta.env.VITE_API_URL;
         fetch(`${baseUrl.replace(/\/+$/, "")}/products`)
             .then((r) => r.json())
             .then((res) => {
-                if (res.success) setProducts(res.data)
-                else setError('Failed to load products.')
+                if (res.success) {
+                    setProducts(res.data)
+                }
+                else {
+                    setError('Failed to load products.')
+                }
             })
             .catch(() => setError('Could not connect to server.'))
             .finally(() => setLoading(false))
     }, [])
-
     const { min, max } = priceRanges[priceIdx]
     const filtered = products
         .filter(p => brand === 'All' || p.brand === brand)
@@ -40,15 +42,7 @@ export default function Home() {
     return (
         <div className="min-h-screen bg-[#0a0a0f] text-slate-200">
 
-            <div className="relative overflow-hidden bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-6 py-14 text-center border-b border-white/5">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.2),transparent_60%)] pointer-events-none" />
-                <div className="relative">
-                    <h1 className="text-4xl md:text-5xl font-extrabold mb-2">
-                        Mobile Marketplace
-                    </h1>
-                    <p className="text-slate-400 text-base">Browse the latest phones from top brands</p>
-                </div>
-            </div>
+            <Navbar />
 
             <div className="max-w-screen-xl mx-auto flex gap-5 p-5">
 

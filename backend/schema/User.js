@@ -10,7 +10,8 @@ const userSchema = mongoose.Schema({
         pincode: { type: Number },
         cityState: { type: String },
         addressLine: { type: String }
-    }
+    },
+    cart: [String]
 }, { timestamps: true });
 
 module.exports = { userSchema };

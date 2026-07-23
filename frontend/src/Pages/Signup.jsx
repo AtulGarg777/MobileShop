@@ -3,15 +3,16 @@ import { object, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
 import userSchema from '../utils/formValidation';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 
 export default function Signup() {
     const { register, watch, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(userSchema) });
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     async function submitForm(data) {
-        console.log("aifg");
-        console.log(import.meta.env.VITE_API_URL);
+        setLoading(true);
 
         let baseUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${baseUrl.replace(/\/+$/, '')}/api/auth/signup`, {
@@ -23,7 +24,6 @@ export default function Signup() {
         })
 
         const result = await response.json();
-        console.log(result);
 
         if (result.success) {
             navigate('/auth/login');
@@ -131,7 +131,7 @@ export default function Signup() {
                         {errors.address?.addressLine && <span className="text-xs text-red-500">{errors.address?.addressLine.message}</span>}
                     </div>
 
-                    <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-lg transition mt-1">Sign Up</button>
+                    <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-lg transition mt-1">{loading ? "Loading..." : "Sign Up"}</button>
 
                 </form>
                 <br />

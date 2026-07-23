@@ -6,6 +6,7 @@ const Auth_route = require('./Routes/Auth_route');
 const cors = require('cors');
 const { productModel } = require('./models/Product');
 app.use(cors());
+const Products = require('./Routes/Products')
 
 app.use(express.json());
 
@@ -23,6 +24,7 @@ mongoose.connect(process.env.VITE_MONGO_URI).then(() => {
 })
 
 app.use('/api/auth', Auth_route);
+app.use('/api/products', Products);
 
 app.get('/', (req, res) => {
     res.send("home backend");
@@ -39,6 +41,7 @@ app.get('/products', async (req, res) => {
             if (minPrice) query.price.$gte = Number(minPrice);
             if (maxPrice) query.price.$lte = Number(maxPrice);
         }
+        console.log(query);
 
         let data = await productModel.find(query);
         res.status(200).json({ success: true, data });

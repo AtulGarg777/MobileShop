@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const loginSchema = object().shape({
     email: string().required("Email is required").email("Invalid email address"),
@@ -11,10 +12,11 @@ const loginSchema = object().shape({
 export default function Login() {
     const { formState: { errors }, register, handleSubmit } = useForm({ resolver: yupResolver(loginSchema) });
     const navigate = useNavigate();
+    let [loading, setLoading] = useState(false);
+    let [error, setError] = useState('');
 
     async function submitForm(data) {
-        console.log(import.meta.env.VITE_API_URL);
-
+        setLoading(true);
         let baseUrl = import.meta.env.VITE_API_URL;
         let response = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/auth/login`, {
             method: 'POST',
@@ -24,10 +26,15 @@ export default function Login() {
             }
         })
         let result = await response.json();
-        console.log(result);
         if (result.success) {
             localStorage.setItem("token", result.jwtToken);
+            localStorage.setItem('username', result.user);
             navigate('/home');
+        } else {
+            setError('Error Occured! Try Again');
+            setTimeout(() => {
+                navigate('/auth/login');
+            }, 1000);
         }
     }
 
@@ -68,7 +75,7 @@ export default function Login() {
                         type="submit"
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-2.5 rounded-lg transition mt-1"
                     >
-                        Login
+                        {loading ? "Loading..." : "Login"}
                     </button>
 
                     <p className="text-center text-sm text-gray-500">
@@ -77,7 +84,7 @@ export default function Login() {
                             Create Account
                         </Link>
                     </p>
-
+                    {error}
                 </form>
             </div>
         </div>

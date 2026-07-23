@@ -1,12 +1,26 @@
+import { Navigate, useNavigate } from "react-router-dom";
+
 export default function ProductCard({ product }) {
-    const { name, brand, price, mainImage, rating, reviewCount, stock, features } = product
+    const { name, brand, price, mainImage, rating, reviewCount, stock, features } = product;
+    const navigate = useNavigate();
 
     const stars = [1, 2, 3, 4, 5].map(s => (
         <span key={s} className={s <= Math.round(rating) ? 'text-yellow-400 text-sm' : 'text-slate-700 text-sm'}>★</span>
     ))
 
+    async function cardClick(id) {
+        fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`).then((r) => r.json()).then((res) => {
+            if (res.success) {
+                navigate(`/products/${id}`, { state: { data: res.data } })
+            } else {
+                console.error(res);
+
+            }
+        }).catch((err) => console.error(err));
+    }
+
     return (
-        <div className="relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-500/30 hover:shadow-[0_16px_40px_rgba(99,102,241,0.15)] transition-all duration-300 cursor-pointer">
+        <div className="relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-500/30 hover:shadow-[0_16px_40px_rgba(99,102,241,0.15)] transition-all duration-300 cursor-pointer" onClick={() => cardClick(product._id)}>
 
             {stock === 0 && (
                 <span className="absolute bottom-3 left-3 z-10 text-[0.6rem] font-bold uppercase px-2 py-1 rounded bg-red-500/80 text-white">
