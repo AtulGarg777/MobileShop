@@ -3,7 +3,7 @@ const { userModel } = require("../models/UserModel");
 async function verifyEmail(req, res) {
     try {
         let { token } = req.query;
-        console.log(token);
+        // console.log(token);
 
         if (!token) {
             return res.json({ message: "Token Not Found", success: false });

@@ -20,13 +20,15 @@ export default function Login() {
     useEffect(() => {
         try {
             //change this with jwt verification
-            if (localStorage.getItem('token')) {
+            if (localStorage.getItem('token') && localStorage.getItem('userId')) {
+                setUserData({
+                    token: localStorage.getItem('token'),
+                    _id: localStorage.getItem('userId')
+                })
                 navigate('/home')
+
             }
-            setUserData({
-                token: localStorage.getItem('token'),
-                _id: localStorage.getItem('userId')
-            })
+
 
         }
         catch (err) {

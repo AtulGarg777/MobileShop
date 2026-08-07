@@ -58,7 +58,7 @@ router.post('/changePass', async (req, res) => {
 
         //later change to with user.email
         let baseUrl = process.env.FRONTEND_URL;
-        mailTransporter({ verifyUrl: `${baseUrl.replace(/\/+$/, "")}passVerify?token=${token}`, text: "Password Changing" });
+        mailTransporter({ verifyUrl: `${baseUrl.replace(/\/+$/, "")}/passVerify?token=${token}`, text: "Password Changing" });
 
         res.status(200).json({ message: 'Check Email Sent to you', success: true });
     }
