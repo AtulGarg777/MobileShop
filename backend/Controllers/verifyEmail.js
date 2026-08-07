@@ -9,6 +9,8 @@ async function verifyEmail(req, res) {
             return res.json({ message: "Token Not Found", success: false });
         }
 
+                console.log(token);
+
 
         let user = await userModel.findOne({
             verificationToken: token,
@@ -16,6 +18,7 @@ async function verifyEmail(req, res) {
         })
 
         if (!user) {
+                        console.log(user);
             return res.json({ message: 'Token is Invalid', success: false })
         }
 
