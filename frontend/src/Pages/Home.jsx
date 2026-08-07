@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import ProductCard from './ProductCard';
 import Navbar from './Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { prodcutsList } from '../reduxToolkit/features/products/products';
 
 const brands = ['All', 'Apple', 'Samsung', 'Google', 'OnePlus', 'Xiaomi', 'Motorola', 'Sony', 'Asus', 'Vivo', 'Oppo', 'Realme', 'Huawei', 'Honor', 'Nokia']
 
@@ -13,11 +15,25 @@ const priceRanges = [
 ]
 
 export default function Home() {
-    const [products, setProducts] = useState([])
+
+    const dispatch = useDispatch();
+    const products = useSelector((state) => state.products.value)
+    // const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [brand, setBrand] = useState('All')
     const [priceIdx, setPriceIdx] = useState(0);
+
+    let [activePage, setActivePage] = useState(1);
+    let [totalPages, setTotalPages] = useState(0)
+    let itemsPPage = 12;
+
+    const { min, max } = priceRanges[priceIdx]
+
+    const filtered = products
+        .filter(p => brand === 'All' || p.brand === brand)
+        .filter(p => p.price >= min && p.price <= max)
+
 
     useEffect(() => {
         let baseUrl = import.meta.env.VITE_API_URL;
@@ -25,19 +41,28 @@ export default function Home() {
             .then((r) => r.json())
             .then((res) => {
                 if (res.success) {
-                    setProducts(res.data)
+                    dispatch(prodcutsList(res.data))
                 }
                 else {
                     setError('Failed to load products.')
                 }
             })
             .catch(() => setError('Could not connect to server.'))
-            .finally(() => setLoading(false))
+            .finally(() => {
+                setLoading(false)
+            })
     }, [])
-    const { min, max } = priceRanges[priceIdx]
-    const filtered = products
-        .filter(p => brand === 'All' || p.brand === brand)
-        .filter(p => p.price >= min && p.price <= max)
+
+    useEffect(() => {
+        setTotalPages(filtered.length / itemsPPage)
+    }, [products, filtered])
+
+
+
+
+    function changePage(e) {
+        setActivePage(e.target.innerText);
+    }
 
     return (
         <div className="min-h-screen bg-[#0a0a0f] text-slate-200">
@@ -87,8 +112,12 @@ export default function Home() {
                     {loading && <p className="text-slate-400 text-sm">Loading...</p>}
 
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
-                        {!loading && filtered.map(p => <ProductCard key={p._id} product={p} />)}
+                        {!loading && filtered.slice((activePage - 1) * itemsPPage, (activePage * itemsPPage)).map(p => <ProductCard key={p._id} product={p} />)}
                     </div>
+
+                    <div className='py-3 flex justify-evenly w-1/2 m-auto items-center'>{[...Array(Math.ceil(totalPages)).keys()].map((item, ind) => (
+                        <span key={ind} className={`cursor-pointer hover:text-amber-400 ${activePage == (item + 1) ? 'text-amber-500' : ''}`} onClick={(e) => changePage(e)}>{item + 1}</span>
+                    ))}</div>
                 </div>
             </div>
         </div>

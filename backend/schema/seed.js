@@ -1,8 +1,22 @@
-// const mongoose = require('mongoose');
-// require('dotenv').config({ path: '../.env' });
+const mongoose = require('mongoose');
+require('dotenv').config({ path: '../.env' });
 
-// const { productModel } = require('../models/Product');
+const { productModel } = require('../models/Product');
+const { userModel } = require('../models/UserModel');
 
+
+
+async function tempFunction() {
+    try {
+        await mongoose.connect(process.env.VITE_MONGO_URI)
+        await userModel.updateMany({ verificationToken: { $exists: false }, email: { $exists: true, $nin: ["", null] } }, { $set: { isVerified: true } });
+    } catch (err) {
+        console.log(err);
+
+    }
+}
+
+tempFunction();
 
 // const products = [
 //     { "name": "iPhone 15 Pro Max", "brand": "Apple", "category": "Smartphones", "price": 99599, "currency": "INR", "description": "Experience the power of the A17 Pro chip, a titanium design, and the most advanced iPhone camera system.", "mainImage": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80", "images": ["https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80", "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80"], "features": { "processor": "A17 Pro", "ram": "8GB", "storage": "256GB", "display": "6.7-inch OLED", "battery": "4441 mAh", "operatingSystem": "iOS 17", "connectivity": ["5G", "Wi-Fi 6E", "Bluetooth 5.3"], "biometrics": "Face ID" }, "colors": ["Natural Titanium", "Black Titanium"], "rating": 4.8, "reviewCount": 1240, "stock": 45, "isFeatured": true, "createdAt": "2026-01-10T08:30:00.000Z" },

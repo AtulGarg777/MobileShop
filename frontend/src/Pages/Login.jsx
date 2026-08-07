@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form"
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const loginSchema = object().shape({
     email: string().required("Email is required").email("Invalid email address"),
@@ -10,12 +10,37 @@ const loginSchema = object().shape({
 });
 
 export default function Login() {
-    const { formState: { errors }, register, handleSubmit } = useForm({ resolver: yupResolver(loginSchema) });
+    const { formState: { errors }, register, handleSubmit, watch } = useForm({ resolver: yupResolver(loginSchema) });
     const navigate = useNavigate();
     let [loading, setLoading] = useState(false);
     let [error, setError] = useState('');
+    let [userData, setUserData] = useState({});
+
+
+    useEffect(() => {
+        try {
+            //change this with jwt verification
+            if (localStorage.getItem('token')) {
+                navigate('/home')
+            }
+            setUserData({
+                token: localStorage.getItem('token'),
+                _id: localStorage.getItem('userId')
+            })
+
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }, [])
 
     async function submitForm(data) {
+
+        //cretae jwt verification later
+        if (Object.keys(userData).length) {
+            data = userData;
+        }
+
         setLoading(true);
         let baseUrl = import.meta.env.VITE_API_URL;
         let response = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/auth/login`, {
@@ -32,11 +57,17 @@ export default function Login() {
             localStorage.setItem('userId', result._id);
             navigate('/home');
         } else {
+            console.log(result);
+
             setError('Password or Email May Be Wrong! try again');
             setTimeout(() => {
                 navigate('/auth/login');
             }, 1000);
         }
+    }
+
+    function forgotPass() {
+        navigate('/changePass')
     }
 
     return (
@@ -71,6 +102,8 @@ export default function Login() {
                         />
                         {errors.password && <span className="text-xs text-red-500">{errors.password.message}</span>}
                     </div>
+
+                    <a onClick={forgotPass}><small className="text-blue-500 underline">Forgot Password</small></a>
 
                     <button
                         type="submit"

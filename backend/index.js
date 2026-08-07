@@ -9,6 +9,7 @@ app.use(cors());
 const Products = require('./Routes/Products');
 // const CartRoute = require('./Routes/CartRoute');
 const UserRoute = require('./Routes/UserRoute');
+const PaymentRoute = require('./Routes/PaymentRoute')
 
 app.use(express.json());
 
@@ -25,10 +26,12 @@ mongoose.connect(process.env.VITE_MONGO_URI).then(() => {
     console.error("mongo db connection failed");
 })
 
+
 app.use('/api/user', UserRoute);
 app.use('/api/auth', Auth_route);
 // app.use('/api/cart', CartRoute);
 app.use('/api/products', Products);
+app.use('/api/payment', PaymentRoute);
 
 app.get('/', (req, res) => {
     res.send("home backend");
@@ -45,7 +48,7 @@ app.get('/products', async (req, res) => {
             if (minPrice) query.price.$gte = Number(minPrice);
             if (maxPrice) query.price.$lte = Number(maxPrice);
         }
-        console.log(query);
+        // console.log(query);
 
         let data = await productModel.find(query);
         res.status(200).json({ success: true, data });

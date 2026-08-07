@@ -4,10 +4,14 @@ const bcrypt = require('bcrypt');
 
 const login = async (req, res) => {
     try {
-        let { email, mobNo, password } = req.body;
+        let { email, mobNo, password, _id, token } = req.body;
         let user = await userModel.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "user not exist", success: false });
+        }
+
+        if (!user.isVerified) {
+            return res.json({ message: "Email or User may be not verified", success: false })
         }
 
         let comparePass = await bcrypt.compare(password, user.password);

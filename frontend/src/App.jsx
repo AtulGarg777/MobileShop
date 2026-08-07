@@ -1,35 +1,47 @@
+import { ToastContainer, toast } from 'react-toastify'
 import Signup from "./Pages/Signup"
 import Login from "./Pages/Login"
 import Home from "./Pages/Home"
-import PrivateRoute from "./components/PrivateRoute"
-import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
+import PrivateRoute from "./Util/PrivateRoute"
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Cart from "./Pages/Cart"
 import ProductDetail from "./Pages/ProductDetail"
 import HandleLogRoutes from "./HandleLogRoutes"
+import EmailVerify from './Pages/EmailVerify'
+import ChangePassword from './Pages/ChangePassword'
+import PassVerify from './Pages/PassVerify'
+import { Verify } from './Pages/Verify'
 
 function App() {
   return (
-    <BrowserRouter>
-      <HandleLogRoutes />
+    <>
+      <BrowserRouter>
+        <HandleLogRoutes />
 
-      <Routes>
-        {/* <Route path="/auth/login" element={<Login />} />
+        <Routes>
+          {/* <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<Signup />} />
         <Route path="/" element={<Navigate to="/auth/login" replace />} />
         <Route path="*" element={<Navigate to="/auth/login" replace />} />
         <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
         <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>}></Route> */}
-        <Route path="/auth/signup" element={<Signup />} />
-        <Route path="/auth/login" element={<Login />} />
-        <Route path="/" element={<Login />} />
+          <Route path="/auth/signup" element={<Signup />} />
+          <Route path="/auth/verifyEmail" element={<EmailVerify />} />
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path='/changePass' element={<ChangePassword />} />
+          <Route path='/verify' element={<Verify />} />
+          <Route path="/passVerify" element={<PassVerify />} />
 
-        <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
-        <Route path="/cart" element={<PrivateRoute> <Cart /> </PrivateRoute>} />
-        <Route path="/products/:id" element={<PrivateRoute> <ProductDetail /> </PrivateRoute>} />
+          <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
+          <Route path="/cart" element={<PrivateRoute> <Cart /> </PrivateRoute>} />
+          <Route path="/products/:id" element={<PrivateRoute> <ProductDetail /> </PrivateRoute>} />
 
 
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer />
+    </>
   )
 }
 

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
+import { addToCart } from '../Util/cartFunc'
+import { buyNow } from '../Util/cardClick'
+
 
 const ProductDetail = () => {
 
@@ -14,7 +17,7 @@ const ProductDetail = () => {
 
 
 
-    // Mock data based strictly on your schema for demonstration
+    // Mock data based strictly on schema
     const product = {
         images: [
             "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
@@ -33,24 +36,6 @@ const ProductDetail = () => {
         maximumFractionDigits: 0
     }).format(price);
 
-
-    function addToCart(id) {
-        let user = localStorage.getItem('userId');
-
-        try {
-            fetch(`${import.meta.env.VITE_API_URL}/api/user/addtocart`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        productId: id,
-                        userId: user
-                    }),
-                    headers: { "Content-Type": "application/json" }
-                })
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
     return (
         <>
@@ -204,12 +189,22 @@ const ProductDetail = () => {
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                 {stock > 0 ? 'Add to Cart' : 'Out of Stock'}
                             </button>
+                            <button
+                                disabled={stock === 0}
+                                className={`flex-1 py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 ${stock > 0
+                                    ? 'bg-yellow-400 hover:bg-yellow-600 text-white shadow-[0_4px_20px_rgba(79,70,229,0.4)] hover:shadow-[0_6px_25px_rgba(79,70,229,0.6)] hover:-translate-y-1'
+                                    : 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                                    }`} onClick={(e) => buyNow(e, _id)}
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                                Buy Now
+                            </button>
                             {/* <button
-                            className="px-6 py-4 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white transition-all duration-300 hover:-translate-y-1"
-                            aria-label="Add to wishlist"
-                        >
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                        </button> */}
+                                className="px-6 py-4 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white transition-all duration-300 hover:-translate-y-1"
+                                aria-label="Add to wishlist"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            </button> */}
                         </div>
 
                     </div>

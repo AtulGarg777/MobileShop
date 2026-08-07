@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import userSchema from '../utils/formValidation';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { toastSuccess } from '../Util/toastify';
 
 
 export default function Signup() {
@@ -26,7 +27,8 @@ export default function Signup() {
         const result = await response.json();
 
         if (result.success) {
-            navigate('/auth/login');
+            // navigate('/auth/verifyEmail');
+            toastSuccess("Verification Sent to your Email Id")
         } else {
             console.error("Signup failed:", result.message);
         }

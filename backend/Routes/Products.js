@@ -9,7 +9,7 @@ router.get('/:id', async (req, res) => {
 
         let data = await productModel.findById(id);
         res.status(200).json({ data, success: true });
-        console.log(data + " data");
+        // console.log(data + " data");
     } catch (err) {
         res.status(500).json({ message: 'failed to get product data', succes: false, err })
     }

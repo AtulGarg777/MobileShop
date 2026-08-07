@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react"
 import Navbar from "./Navbar";
+import { useDispatch, useSelector } from 'react-redux';
+import { addProducts, removeProduct } from '../reduxToolkit/features/items/itemsSlice'
+import { cardClick } from "../Util/cardClick";
+import { useNavigate } from "react-router-dom";
+import { removeFromCart } from "../Util/cartFunc";
 
 export default function Cart() {
 
-    const [products, setProducts] = useState([]);
+    const dispatch = useDispatch();
+    const cartProducts = useSelector((state) => state.items.value);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let userId = localStorage.getItem("userId");
@@ -12,7 +19,8 @@ export default function Cart() {
             .then((r) => r.json())
             .then((res) => {
                 if (res.success) {
-                    setProducts(res.data);
+                    //saving cart list of products in redux store
+                    dispatch(addProducts(res.data))
                 } else {
                     console.error(res);
                 }
@@ -21,12 +29,12 @@ export default function Cart() {
     return (
         <>
             <Navbar />
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4 bg-slate-800 py-7 px-3 h-screen">
-                {products.length > 0 ? products.map((item, ind) => {
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4 bg-slate-800 py-7 px-3 min-h-screen">
+                {cartProducts.length > 0 ? cartProducts.map((item, ind) => {
                     const { name, brand, price, mainImage, rating, reviewCount, stock, features, _id } = item;
                     return (
 
-                        <div className="relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-500/30 hover:shadow-[0_16px_40px_rgba(99,102,241,0.15)] transition-all duration-300 cursor-pointer h-fit" key={_id}>
+                        <div className="relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-500/30 hover:shadow-[0_16px_40px_rgba(99,102,241,0.15)] transition-all duration-300 cursor-pointer h-fit" key={_id} onClick={() => cardClick(_id, navigate)}>
                             {stock === 0 && (
                                 <span className="absolute bottom-3 left-3 z-10 text-[0.6rem] font-bold uppercase px-2 py-1 rounded bg-red-500/80 text-white">
                                     Out of Stock
@@ -55,9 +63,16 @@ export default function Cart() {
                                     <button
                                         disabled={stock === 0}
                                         className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}`}
+                                        onClick={(e) => buyNow(e,)}
                                     >
                                         {stock === 0 ? 'Sold Out' : 'Buy Now'}
                                     </button>
+                                    <button
+                                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-red-600 hover:bg-red-500 text-white'}`} onClick={(e) => removeFromCart(_id, e, dispatch, removeProduct)}
+                                    >
+                                        Remove Item
+                                    </button>
+
                                 </div>
                             </div>
                         </div>)

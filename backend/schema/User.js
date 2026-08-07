@@ -4,6 +4,7 @@ const userSchema = mongoose.Schema({
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true, minlength: 6 },
+    tempPassword: { type: String, minlength: 6 },
     mobNo: { type: String, default: null },
     address: {
         city: { type: String },
@@ -11,7 +12,10 @@ const userSchema = mongoose.Schema({
         cityState: { type: String },
         addressLine: { type: String }
     },
-    cart: [{ type: String, unique: true, trim: true }]
+    cart: [{ type: String, unique: true, trim: true }],
+    verificationToken: { type: String },
+    isVerified: { type: Boolean, default: false },
+    verificationTokenExpireAt: { type: Date, }
 }, { timestamps: true });
 
 module.exports = { userSchema };
