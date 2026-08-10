@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import userSchema from '../utils/formValidation';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { toastSuccess } from '../Util/toastify';
+import { toastError, toastSuccess } from '../Util/toastify';
 
 
 export default function Signup() {
@@ -28,10 +28,15 @@ export default function Signup() {
 
         if (result.success) {
             // navigate('/auth/verifyEmail');
-            toastSuccess("Verification Sent to your Email Id")
+            toastSuccess("Verification Email Sent to your Email Id")
         } else {
+            if (result.message == 'user already exist') {
+                navigate('/auth/login')
+            }
+            toastError(result.message);
             console.error("Signup failed:", result.message);
         }
+        setLoading(false);
     }
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-8">

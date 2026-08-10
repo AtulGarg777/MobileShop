@@ -19,8 +19,8 @@ const signup = async (req, res) => {
         await newUser.save();
 
         let baseUrl = process.env.FRONTEND_URL;
-        let verifyUrl = `${baseUrl.replace(/\/+$/, "")}auth/verifyEmail?token=${verificationToken}`;
-        mailTransporter(verifyUrl);
+        let verifyUrl = `${baseUrl.replace(/\/+$/, "")}/auth/verifyEmail?token=${verificationToken}`;
+        mailTransporter({ verifyUrl: verifyUrl, to: email });
 
 
         res.status(200).json({ message: "Singup Successfully", success: true })

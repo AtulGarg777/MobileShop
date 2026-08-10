@@ -19,12 +19,8 @@ function App() {
         <HandleLogRoutes />
 
         <Routes>
-          {/* <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/signup" element={<Signup />} />
-        <Route path="/" element={<Navigate to="/auth/login" replace />} />
-        <Route path="*" element={<Navigate to="/auth/login" replace />} />
-        <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
-        <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>}></Route> */}
+
+          {/* public routes */}
           <Route path="/auth/signup" element={<Signup />} />
           <Route path="/auth/verifyEmail" element={<EmailVerify />} />
           <Route path="/auth/login" element={<Login />} />
@@ -33,11 +29,10 @@ function App() {
           <Route path='/verify' element={<Verify />} />
           <Route path="/passVerify" element={<PassVerify />} />
 
+          {/* private routes */}
           <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
           <Route path="/cart" element={<PrivateRoute> <Cart /> </PrivateRoute>} />
           <Route path="/products/:id" element={<PrivateRoute> <ProductDetail /> </PrivateRoute>} />
-
-
         </Routes>
       </BrowserRouter>
       <ToastContainer />

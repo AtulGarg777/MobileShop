@@ -42,7 +42,7 @@ export default function Login() {
         if (Object.keys(userData).length) {
             data = userData;
         }
-    console.log(data);
+
         setLoading(true);
         let baseUrl = import.meta.env.VITE_API_URL;
         let response = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/auth/login`, {

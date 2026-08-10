@@ -3,6 +3,7 @@ require('dotenv').config();
 
 async function mailTransporter({ verifyUrl,
     to = 'atul.garg.212@gmail.com', subject = "Testing Nodemailer", text = "Hello Atul, How Are You?", }) {
+
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -36,7 +37,6 @@ async function mailTransporter({ verifyUrl,
         html: `<h3>Click Below button to get verified</h3> <br/> <a href='${verifyUrl}'>verify</a>`
     }
 
-    // console.log(mailOptions);
 
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
