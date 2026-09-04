@@ -11,6 +11,8 @@ import EmailVerify from './Pages/EmailVerify'
 import ChangePassword from './Pages/ChangePassword'
 import PassVerify from './Pages/PassVerify'
 import { Verify } from './Pages/Verify'
+import AddProduct from './Pages/admin/AddProduct'
+
 
 function App() {
   return (
@@ -33,6 +35,7 @@ function App() {
           <Route path="/home" element={<PrivateRoute> <Home /> </PrivateRoute>} />
           <Route path="/cart" element={<PrivateRoute> <Cart /> </PrivateRoute>} />
           <Route path="/products/:id" element={<PrivateRoute> <ProductDetail /> </PrivateRoute>} />
+          <Route path="/addProduct" element={<PrivateRoute> <AddProduct /> </PrivateRoute>} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

@@ -111,10 +111,12 @@ export default function Home() {
 
                     {loading && <p className="text-slate-400 text-sm">Loading...</p>}
 
+                    {/* Display product */}
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
                         {!loading && filtered.slice((activePage - 1) * itemsPPage, (activePage * itemsPPage)).map(p => <ProductCard key={p._id} product={p} />)}
                     </div>
 
+                    {/* Pagination Buttons */}
                     <div className='py-3 flex justify-evenly w-1/2 m-auto items-center'>{[...Array(Math.ceil(totalPages)).keys()].map((item, ind) => (
                         <span key={ind} className={`cursor-pointer hover:text-amber-400 ${activePage == (item + 1) ? 'text-amber-500' : ''}`} onClick={(e) => changePage(e)}>{item + 1}</span>
                     ))}</div>

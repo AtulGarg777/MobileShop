@@ -1,6 +1,7 @@
 const Razorpay = require('razorpay');
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 const { productModel } = require('../models/Product');
 
 
@@ -36,6 +37,21 @@ router.post('/order', async (req, res) => {
     } catch (err) {
         res.status(500).json({ err, message: 'server error in creating order', success: false })
     }
+})
+
+
+router.post('/verify', (req, res) => {
+    let paymentResponse = req.body;
+
+    let generate_sign = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET_KEY)
+        .update(razorpay_order_id + "|" + razorpay_payment_id).digest('hex')
+
+    if (generate_sign == razorpay_signature) {
+        res.json({ message: "payment verified successfully", success: true })
+    }
+
+    res.json({ message: 'payment verification failed', success: false })
+
 })
 
 

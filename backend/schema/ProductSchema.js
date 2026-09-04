@@ -7,8 +7,14 @@ const productSchema = new mongoose.Schema({
     price: { type: Number, required: true },
     currency: { type: String, default: 'INR' },
     description: { type: String },
-    mainImage: { type: String },
-    images: [String],
+    mainImage: {
+        secure_url: { type: String },
+        public_id: { type: String }
+    },
+    images: [{
+        secure_url: { type: String },
+        public_id: { type: String }
+    }],
     features: {
         processor: String,
         ram: String,

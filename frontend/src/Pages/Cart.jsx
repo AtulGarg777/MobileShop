@@ -42,7 +42,7 @@ export default function Cart() {
                             )}
 
                             <div className="h-44 bg-[#13131f] flex items-center justify-center overflow-hidden">
-                                <img src={mainImage} alt={name} loading="lazy" className="h-full w-full object-cover" />
+                                <img src={(typeof mainImage == "string" ? mainImage : mainImage.secure_url)} alt={name} loading="lazy" className="h-full w-full object-cover" />
                             </div>
 
                             <div className="p-4">
@@ -61,9 +61,10 @@ export default function Cart() {
                                 <div className="flex items-center justify-between gap-2 flex-wrap">
                                     <span className="text-base font-bold text-cyan-300" style={{ width: "-webkit-fill-available" }}>₹{price?.toLocaleString('en-IN')}</span>
                                     <button
+                                        type="button"
                                         disabled={stock === 0}
                                         className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}`}
-                                        onClick={(e) => buyNow(e,)}
+                                        onClick={(e) => buyNow(e, _id)}
                                     >
                                         {stock === 0 ? 'Sold Out' : 'Buy Now'}
                                     </button>

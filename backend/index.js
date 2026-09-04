@@ -10,6 +10,7 @@ const Products = require('./Routes/Products');
 // const CartRoute = require('./Routes/CartRoute');
 const UserRoute = require('./Routes/UserRoute');
 const PaymentRoute = require('./Routes/PaymentRoute')
+const AdminRoute = require('./Routes/AdminRoute')
 
 app.use(express.json());
 
@@ -32,6 +33,7 @@ app.use('/api/auth', Auth_route);
 // app.use('/api/cart', CartRoute);
 app.use('/api/products', Products);
 app.use('/api/payment', PaymentRoute);
+app.use('/api/admin', AdminRoute)
 
 app.get('/', (req, res) => {
     res.send("home backend");

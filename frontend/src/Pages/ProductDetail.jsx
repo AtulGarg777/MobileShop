@@ -13,20 +13,11 @@ const ProductDetail = () => {
         return (<div>Error Occured In Fetching Data! Try Again</div>)
     }
 
-    let { name, brand, category, price, currency, description, mainImage, features, colors, rating, reviewCount, stock, isFeatured, _id } = navigationData.data;
+    let { name, brand, category, price, currency, description, mainImage, features, colors, rating, reviewCount, stock, isFeatured, _id, images } = navigationData.data;
 
 
 
-    // Mock data based strictly on schema
-    const product = {
-        images: [
-            "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=800&q=80"
-        ],
-    };
-
-    const [activeImage, setActiveImage] = useState(mainImage);
+    const [activeImage, setActiveImage] = useState(mainImage.secure_url);
     // const [activeColor, setActiveColor] = useState(colors[0]);
 
     // Format currency
@@ -55,7 +46,7 @@ const ProductDetail = () => {
                         </div>
 
                         {/* image gallery thumbnails */}
-                        {product.images && product.images.length > 0 && (
+                        {/* {product.images && product.images.length > 0 && (
                             <div className="flex gap-4 overflow-x-auto pb-2 custom-scrollbar">
                                 {product.images.map((img, index) => (
                                     <button
@@ -65,6 +56,21 @@ const ProductDetail = () => {
                                             }`}
                                     >
                                         <img src={img} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
+                                    </button>
+                                ))}
+                            </div>
+                        )} */}
+
+                        {images && images.length > 0 && (
+                            <div className="flex gap-4 overflow-x-auto pb-2 custom-scrollbar">
+                                {images.map((img, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setActiveImage(img.secure_url)}
+                                        className={`flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all ${activeImage === img.secure_url ? 'border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'border-gray-800 hover:border-gray-600'
+                                            }`}
+                                    >
+                                        <img src={img.secure_url} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
                                     </button>
                                 ))}
                             </div>
@@ -189,7 +195,7 @@ const ProductDetail = () => {
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                 {stock > 0 ? 'Add to Cart' : 'Out of Stock'}
                             </button>
-                            <button
+                            <button type='button'
                                 disabled={stock === 0}
                                 className={`flex-1 py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 ${stock > 0
                                     ? 'bg-yellow-400 hover:bg-yellow-600 text-white shadow-[0_4px_20px_rgba(79,70,229,0.4)] hover:shadow-[0_6px_25px_rgba(79,70,229,0.6)] hover:-translate-y-1'
