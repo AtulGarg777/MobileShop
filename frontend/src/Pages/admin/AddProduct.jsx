@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form'
 import { toastError, toastSuccess } from '../../Util/toastify';
 
+
+//admin file to add product
 export default function AddProduct() {
 
     let { register, watch, handleSubmit, formState: { errors } } = useForm()

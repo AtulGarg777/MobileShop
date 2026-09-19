@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { object, string } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
-import userSchema from '../utils/formValidation';
+import userSchema from '../../utils/formValidation';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { toastError, toastSuccess } from '../Util/toastify';
+import { toastError, toastSuccess } from '../../Util/toastify';
 
 
 export default function Signup() {

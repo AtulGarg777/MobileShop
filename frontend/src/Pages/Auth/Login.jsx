@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form"
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+// import { useAuth } from "../../Context/AuthContext";
 
 const loginSchema = object().shape({
     email: string().required("Email is required").email("Invalid email address"),
@@ -11,38 +12,15 @@ const loginSchema = object().shape({
 
 export default function Login() {
     const { formState: { errors }, register, handleSubmit, watch } = useForm({ resolver: yupResolver(loginSchema) });
+
+    //context
+    // let { user, setUser } = useAuth();
+
     const navigate = useNavigate();
     let [loading, setLoading] = useState(false);
     let [error, setError] = useState('');
-    let [userData, setUserData] = useState({});
-
-
-    useEffect(() => {
-        try {
-            //change this with jwt verification
-            if (localStorage.getItem('token') && localStorage.getItem('userId')) {
-                setUserData({
-                    token: localStorage.getItem('token'),
-                    _id: localStorage.getItem('userId')
-                })
-                navigate('/home')
-
-            }
-
-
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }, [])
 
     async function submitForm(data) {
-
-        //cretae jwt verification later
-        if (Object.keys(userData).length) {
-            data = userData;
-        }
-
         setLoading(true);
         let baseUrl = import.meta.env.VITE_API_URL;
         let response = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/auth/login`, {
@@ -50,17 +28,19 @@ export default function Login() {
             body: JSON.stringify(data),
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            credentials: "include"
         })
         let result = await response.json();
+
         if (result.success) {
-            localStorage.setItem("token", result.jwtToken);
-            localStorage.setItem('username', result.user);
-            localStorage.setItem('userId', result._id);
-            navigate('/home');
+            // setUser(result?.user);
+            localStorage.setItem('user', result?.user);
+            localStorage.setItem('userId', result?._id);
+            localStorage.setItem('email', result?.email);
+            navigate('/');
         } else {
             console.log(result);
-
             setError('Password or Email May Be Wrong! try again');
             setTimeout(() => {
                 navigate('/auth/login');

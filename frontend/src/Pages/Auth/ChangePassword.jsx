@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form"
 import { object, string } from 'yup'
-import { toastError } from "../Util/toastify";
+import { toastError } from "../../Util/toastify";
 
 const schema = object().shape({
     email: string().required("Email Required").email("Invalid Email"),

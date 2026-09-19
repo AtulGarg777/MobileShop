@@ -5,14 +5,19 @@ require('dotenv').config();
 const Auth_route = require('./Routes/Auth_route');
 const cors = require('cors');
 const { productModel } = require('./models/Product');
-app.use(cors());
+
 const Products = require('./Routes/Products');
 // const CartRoute = require('./Routes/CartRoute');
 const UserRoute = require('./Routes/UserRoute');
 const PaymentRoute = require('./Routes/PaymentRoute')
 const AdminRoute = require('./Routes/AdminRoute')
+const cookieParser = require('cookie-parser');
+const { jwtVerification } = require('./Middlewares/jwtVerification');
+
 
 app.use(express.json());
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+app.use(cookieParser())
 
 const PORT = process.env.VITE_PORT;
 
@@ -32,7 +37,11 @@ app.use('/api/user', UserRoute);
 app.use('/api/auth', Auth_route);
 // app.use('/api/cart', CartRoute);
 app.use('/api/products', Products);
-app.use('/api/payment', PaymentRoute);
+
+// only for logged in user
+app.use('/api/payment', jwtVerification, PaymentRoute);
+
+//only for admin
 app.use('/api/admin', AdminRoute)
 
 app.get('/', (req, res) => {

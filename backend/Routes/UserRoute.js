@@ -15,13 +15,11 @@ router.post('/verifyPassword', async (req, res) => {
         if (!user) {
             return res.status(400).json({ message: 'Invalid Token! Try Again', success: false });
         }
-        // console.log(user.tempPassword);
 
         user.password = user.tempPassword;
         user.tempPassword = undefined;
         user.verificationToken = undefined;
         user.verificationTokenExpireAt = undefined;
-        // console.log(user.modifiedPaths());
 
         await user.save();
 
@@ -50,7 +48,7 @@ router.post('/changePass', async (req, res) => {
         let token = crypto.randomBytes(32).toString('hex');
         let newPass = await bcrypt.hash(newPassword, 10);
         user.tempPassword = newPass;
-        // console.log("newPass ", newPass);
+
 
         user.verificationToken = token;
         user.verificationTokenExpireAt = Date.now() + 5 * 60 * 1000;
@@ -58,7 +56,7 @@ router.post('/changePass', async (req, res) => {
 
         //later change to with user.email
         let baseUrl = process.env.FRONTEND_URL;
-        mailTransporter({ verifyUrl: `${baseUrl.replace(/\/+$/, "")}/passVerify?token=${token}`, text: "Password Changing" });
+        mailTransporter({ verifyUrl: `${baseUrl.replace(/\/+$/, "")}/passVerify?token=${token}`, text: "Password Changing", to: email });
 
         res.status(200).json({ message: 'Check Email Sent to you', success: true });
     }

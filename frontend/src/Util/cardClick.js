@@ -1,4 +1,7 @@
 // Dynamically loads the Razorpay checkout script only when needed.
+
+import { toastError } from "./toastify";
+
 // Resolves immediately if already loaded (idempotent).
 function loadRazorpay() {
     return new Promise((resolve, reject) => {
@@ -36,13 +39,15 @@ async function buyNow(e, _id) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ _id })
+            body: JSON.stringify({ _id, email: localStorage.getItem('email') })
         });
 
         const res = await response.json();
 
         if (!res.success) {
-            console.error("Order creation failed:", res.message);
+            console.log(res);
+
+            toastError(res.message);
             return;
         }
 

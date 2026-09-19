@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom"
-import { toastSuccess } from "../Util/toastify";
+import { toastSuccess } from "../../Util/toastify";
 
 export default function PassVerify() {
 

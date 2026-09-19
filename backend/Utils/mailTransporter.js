@@ -42,7 +42,7 @@ async function mailTransporter({ verifyUrl,
         if (err) {
             console.log("email  sending error occured", err);
         } else {
-            console.log(info);
+            // console.log(info);
 
         }
     })

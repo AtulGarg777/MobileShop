@@ -12,6 +12,13 @@ const userSchema = mongoose.Schema({
         cityState: { type: String },
         addressLine: { type: String }
     },
+    role: {
+        type: String,
+        required: true,
+        trim: true,
+        default: 'free',
+        enum: ['free', 'paid', 'admin']
+    },
     cart: [{ type: String, unique: true, trim: true }],
     verificationToken: { type: String },
     isVerified: { type: Boolean, default: false },

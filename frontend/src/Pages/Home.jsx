@@ -18,7 +18,6 @@ export default function Home() {
 
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.value)
-    // const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [brand, setBrand] = useState('All')
@@ -30,12 +29,13 @@ export default function Home() {
 
     const { min, max } = priceRanges[priceIdx]
 
-    const filtered = products
+    const filteredProducts = products
         .filter(p => brand === 'All' || p.brand === brand)
         .filter(p => p.price >= min && p.price <= max)
 
 
     useEffect(() => {
+        let userName = localStorage.getItem('user');
         let baseUrl = import.meta.env.VITE_API_URL;
         fetch(`${baseUrl.replace(/\/+$/, "")}/products`)
             .then((r) => r.json())
@@ -54,8 +54,8 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        setTotalPages(filtered.length / itemsPPage)
-    }, [products, filtered])
+        setTotalPages(filteredProducts.length / itemsPPage)
+    }, [products, filteredProducts])
 
 
 
@@ -113,7 +113,7 @@ export default function Home() {
 
                     {/* Display product */}
                     <div className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
-                        {!loading && filtered.slice((activePage - 1) * itemsPPage, (activePage * itemsPPage)).map(p => <ProductCard key={p._id} product={p} />)}
+                        {!loading && filteredProducts.slice((activePage - 1) * itemsPPage, (activePage * itemsPPage)).map(p => <ProductCard key={p._id} product={p} />)}
                     </div>
 
                     {/* Pagination Buttons */}

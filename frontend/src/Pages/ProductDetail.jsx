@@ -39,7 +39,7 @@ const ProductDetail = () => {
                         {/* main image */}
                         <div className="bg-gray-900 rounded-2xl p-4 border border-gray-800 flex items-center justify-center overflow-hidden aspect-[4/5]">
                             <img
-                                src={activeImage}
+                                src={activeImage || mainImage}
                                 alt={name}
                                 className="w-full h-full object-cover rounded-xl transition-opacity duration-300 hover:opacity-90"
                             />

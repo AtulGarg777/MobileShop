@@ -8,6 +8,7 @@ const loginValidation = async (req, res, next) => {
         password: Joi.string().min(8).max(100).required(),
     })
     let { error } = schema.validate(req.body);
+
     if (error) {
         return res.status(400).json({ message: "error occured", success: false, error })
     }
