@@ -32,78 +32,80 @@ async function cardClick(id, navigate) {
 
 async function buyNow(e, _id) {
     e.stopPropagation();
-    try {
-        let baseUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/payment/order`, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ _id, email: localStorage.getItem('email') })
-        });
 
-        const res = await response.json();
+    // try {
+    //     let baseUrl = import.meta.env.VITE_API_URL;
+    //     const response = await fetch(`${baseUrl.replace(/\/+$/, "")}/api/payment/order`, {
+    //         method: 'post',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ _id, email: localStorage.getItem('email') }),
+    //         credentials: 'include'
+    //     });
 
-        if (!res.success) {
-            console.log(res);
+    //     const res = await response.json();
 
-            toastError(res.message);
-            return;
-        }
+    //     if (!res.success) {
+    //         console.log(res);
 
-        // Load Razorpay script on-demand (only once — idempotent)
-        await loadRazorpay();
+    //         toastError(res.message);
+    //         return;
+    //     }
 
-        let options = {
-            key: import.meta.env.VITE_RAZORPAY_API_KEY,
-            amount: res.order.amount,
-            currency: res.order.currency,
-            name: 'GMS Led Hub',
-            description: "testing_razorpay",
-            order_id: res.order.id,
-            prefill: {
-                name: 'Gaurav Kumar',
-                email: 'gaurav.kumar@example.com',
-                contact: '7973033054'
-            },
-            theme: {
-                color: '#F37254'
-            },
-            handler: function (paymentResponse) {
-                fetch(`${baseUrl.replace(/\/+$/, "")}/api/payment/verify`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(paymentResponse)
-                })
-                    .then((r) => r.json())
-                    .then((verifyRes) => {
-                        if (verifyRes.success) {
-                            window.location.href = '/verify';
-                        } else {
-                            console.error("Payment verification failed", verifyRes);
-                        }
-                    })
-                    .catch((err) => console.error("Verify error:", err));
-            },
-            modal: {
-                ondismiss: function () {
-                    console.log("Razorpay modal closed by user.");
-                }
-            }
-        };
+    //     // Load Razorpay script on-demand (only once — idempotent)
+    //     await loadRazorpay();
 
-        const rzp = new window.Razorpay(options);
+    //     let options = {
+    //         key: import.meta.env.VITE_RAZORPAY_API_KEY,
+    //         amount: res.order.amount,
+    //         currency: res.order.currency,
+    //         name: 'GMS Led Hub',
+    //         description: "testing_razorpay",
+    //         order_id: res.order.id,
+    //         prefill: {
+    //             name: 'Gaurav Kumar',
+    //             email: 'gaurav.kumar@example.com',
+    //             contact: '7973033054'
+    //         },
+    //         theme: {
+    //             color: '#F37254'
+    //         },
+    //         handler: function (paymentResponse) {
+    //             fetch(`${baseUrl.replace(/\/+$/, "")}/api/payment/verify`, {
+    //                 method: 'POST',
+    //                 headers: { 'Content-Type': 'application/json' },
+    //                 body: JSON.stringify(paymentResponse)
+    //             })
+    //                 .then((r) => r.json())
+    //                 .then((verifyRes) => {
+    //                     if (verifyRes.success) {
+    //                         window.location.href = '/verify';
+    //                     } else {
+    //                         console.error("Payment verification failed", verifyRes);
+    //                     }
+    //                 })
+    //                 .catch((err) => console.error("Verify error:", err));
+    //         },
+    //         modal: {
+    //             ondismiss: function () {
+    //                 console.log("Razorpay modal closed by user.");
+    //             }
+    //         }
+    //     };
 
-        rzp.on('payment.failed', function (response) {
-            console.error("Payment failed:", response.error);
-            // show an error message to the user
-        });
+    //     const rzp = new window.Razorpay(options);
 
-        rzp.open();
+    //     rzp.on('payment.failed', function (response) {
+    //         console.error("Payment failed:", response.error);
+    //         // show an error message to the user
+    //     });
 
-    } catch (err) {
-        console.error("Error in Buy Product Button IN Payment file", err);
-    }
+    //     rzp.open();
+
+    // } catch (err) {
+    //     console.error("Error in Buy Product Button IN Payment file", err);
+    // }
 }
 
 export { cardClick, buyNow };

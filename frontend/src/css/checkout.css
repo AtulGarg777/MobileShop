@@ -1,0 +1,12 @@
+.checkout {
+    text-align: center;
+    background-color: #ff4500e3;
+    color: white;
+    padding: 1rem;
+    width: 30rem;
+    position: fixed;
+    z-index: 9;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -14,6 +14,9 @@ const AdminRoute = require('./Routes/AdminRoute')
 const cookieParser = require('cookie-parser');
 const { jwtVerification } = require('./Middlewares/jwtVerification');
 
+const { checkAdmin } = require('./Middlewares/checkAdmin');
+
+
 
 app.use(express.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
@@ -33,6 +36,8 @@ mongoose.connect(process.env.VITE_MONGO_URI).then(() => {
 })
 
 
+
+
 app.use('/api/user', UserRoute);
 app.use('/api/auth', Auth_route);
 // app.use('/api/cart', CartRoute);
@@ -42,7 +47,7 @@ app.use('/api/products', Products);
 app.use('/api/payment', jwtVerification, PaymentRoute);
 
 //only for admin
-app.use('/api/admin', AdminRoute)
+app.use('/api/admin', checkAdmin, AdminRoute)
 
 app.get('/', (req, res) => {
     res.send("home backend");
