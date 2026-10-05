@@ -40,7 +40,7 @@ export default function Navbar() {
                 </div>
                 <div className='nav_links'>
                     <ul>
-                        <li><a href="">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li><a href="">Products</a></li>
                         <li><a href="">Categories</a></li>
                         <li><a href="">About</a></li>

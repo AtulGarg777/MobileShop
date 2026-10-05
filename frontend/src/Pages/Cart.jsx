@@ -15,16 +15,30 @@ export default function Cart() {
     useEffect(() => {
         let userId = localStorage.getItem("userId");
         let baseUrl = import.meta.env.VITE_API_URL;
-        fetch(`${baseUrl.replace(/\/+$/, '')}/api/user/getProducts/${userId}`,)
-            .then((r) => r.json())
-            .then((res) => {
-                if (res.success) {
-                    //saving cart list of products in redux store
-                    dispatch(addProducts(res.data))
-                } else {
-                    console.error(res);
-                }
-            })
+        if (userId) {
+            fetch(`${baseUrl.replace(/\/+$/, '')}/api/user/getProducts/${userId}`)
+                .then((r) => r.json())
+                .then((res) => {
+                    if (res.success) {
+                        //saving cart list of products in redux store
+                        dispatch(addProducts(res.data))
+                    } else {
+                        console.error(res);
+                    }
+                })
+        } else {
+            let guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+            if (guestCart.length > 0) {
+                Promise.all(guestCart.map(id => fetch(`${baseUrl.replace(/\/+$/, '')}/api/products/${id}`).then(r => r.json())))
+                    .then(results => {
+                        const validProducts = results.filter(res => res.success).map(res => res.data);
+                        dispatch(addProducts(validProducts));
+                    })
+                    .catch(err => console.error(err));
+            } else {
+                dispatch(addProducts([]));
+            }
+        }
     }, [])
     return (
         <>

@@ -37,7 +37,7 @@ function App() {
 
 
           {/*user private routes */}
-          <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+          <Route path="/cart" element={<Cart />} />
 
           {/* admin route */}
           <Route path="/addProduct" element={<AddProduct />} />
