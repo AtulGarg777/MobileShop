@@ -3,6 +3,8 @@ import ProductCard from './ProductCard';
 import Navbar from './Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { prodcutsList } from '../reduxToolkit/features/products/products';
+import Footer from './Footer';
+import CheckOut from './CheckOut';
 
 const brands = ['All', 'Apple', 'Samsung', 'Google', 'OnePlus', 'Xiaomi', 'Motorola', 'Sony', 'Asus', 'Vivo', 'Oppo', 'Realme', 'Huawei', 'Honor', 'Nokia']
 
@@ -65,13 +67,15 @@ export default function Home() {
     }
 
     return (
-        <div className="min-h-screen bg-[#0a0a0f] text-slate-200">
+        <div className="min-h-screen text-black">
 
             <Navbar />
 
+            <CheckOut />
+
             <div className="max-w-screen-xl mx-auto flex gap-5 p-5">
 
-                <aside className="w-52 shrink-0 sticky top-5 self-start">
+                {/* <aside className="w-52 shrink-0 sticky top-5 self-start">
                     <div className="bg-white/[0.03] border border-white/[0.07] rounded-xl p-4">
 
                         <p className="text-[0.7rem] font-bold uppercase tracking-widest text-slate-400 mb-2">Brand</p>
@@ -100,7 +104,7 @@ export default function Home() {
                             ))}
                         </div>
                     </div>
-                </aside>
+                </aside> */}
 
                 <div className="flex-1 min-w-0">
                     {error && (
@@ -122,6 +126,7 @@ export default function Home() {
                     ))}</div>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }
