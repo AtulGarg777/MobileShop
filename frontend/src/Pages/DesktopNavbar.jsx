@@ -33,7 +33,7 @@ export default function Navbar() {
         <>
 
             <div className="navbar desktop_view">
-                <div className='logo'>LOGO</div>
+                <div className='logo'><a href="/">LOGO</a></div>
                 <div className='nav_search'>
                     <input type="text" placeholder="Search" />
                     <button><i className="fa-solid fa-magnifying-glass"></i></button>
@@ -59,8 +59,8 @@ export default function Navbar() {
                         </button>
                     </> :
                         <div>
-                            <button type="button" className='authBtn' onClick={logIn}>Login</button>
-                            <button type="button" className='authBtn' onClick={signUp}>Signup</button>
+                            <button type="button" style={{ cursor: 'pointer' }} className='authBtn' onClick={logIn}>Login</button>
+                            <button type="button" style={{ cursor: 'pointer' }} className='authBtn' onClick={signUp}>Signup</button>
                         </div>
                     }
                 </div>

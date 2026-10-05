@@ -31,7 +31,7 @@ export default function MobileNavbar() {
     return (
         <>
             <div className="navbar mobile_view">
-                <div className='logo'>LOGO</div>
+                <div className='logo'><a href="/">LOGO</a></div>
                 <div className='nav_search'>
                     <input type="text" placeholder="Search" />
                     <button><i className="fa-solid fa-magnifying-glass"></i></button>

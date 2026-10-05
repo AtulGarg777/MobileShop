@@ -27,7 +27,7 @@ export default function Home() {
 
     let [activePage, setActivePage] = useState(1);
     let [totalPages, setTotalPages] = useState(0)
-    let itemsPPage = 12;
+    let itemsPPage = 15;
 
     const { min, max } = priceRanges[priceIdx]
 

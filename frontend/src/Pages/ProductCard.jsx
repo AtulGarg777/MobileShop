@@ -41,11 +41,13 @@ export default function ProductCard({ product }) {
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                     <span className="text-base font-bold text-orange-400" style={{ width: "-webkit-fill-available" }}>₹{price?.toLocaleString('en-IN')}</span>
                     <button
+                        style={{ cursor: 'pointer' }}
                         disabled={stock === 0}
                         className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-orange-700 text-orange-500 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-500 text-white'}`} onClick={(e) => { e.stopPropagation(), addToCart(product._id) }}
                     > Add To Cart
                     </button>
                     <button
+                        style={{ cursor: 'pointer' }}
                         type="button"
                         disabled={stock === 0}
                         className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-orange-700 text-orange-500 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-500 text-white'}`} onClick={(e) => buyNow(e, _id)}
