@@ -16,7 +16,7 @@ const { jwtVerification } = require('./Middlewares/jwtVerification');
 
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+app.use(cors({ credentials: true, origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] }));
 app.use(cookieParser())
 
 const PORT = process.env.VITE_PORT;
