@@ -31,7 +31,7 @@ export default function AddProduct() {
         let res = await response.json();
 
         if (!res.success) {
-            toastError(res.message)
+            toastError('Error occured !Try Again')
             return;
         }
 

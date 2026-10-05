@@ -1,21 +1,17 @@
-import hocLazyLoad from './Util/hocLazyLoad'
-import Home from "./Pages/Home"
 import { ToastContainer, toast } from 'react-toastify'
-let Signup = hocLazyLoad(() => import('./Pages/Auth/Signup'))
-let Login = hocLazyLoad(() => import('./Pages/Auth/Login'))
+import Signup from "./Pages/Auth/Signup"
+import Login from "./Pages/Auth/Login"
+import Home from "./Pages/Home"
 // import PrivateRoute from "./Util/PrivateRoute"
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
-let Cart = hocLazyLoad(() => import('./Pages/Cart'))
-let ProductDetail = hocLazyLoad(() => import("./Pages/ProductDetail"))
+import Cart from "./Pages/Cart"
+import ProductDetail from "./Pages/ProductDetail"
 // import HandleLogRoutes from "./HandleLogRoutes"
-let EmailVerify = hocLazyLoad(() => import('./Pages/Auth/EmailVerify'))
-let ChangePassword = hocLazyLoad(() => import('./Pages/Auth/ChangePassword'));
-let PassVerify = hocLazyLoad(() => import('./Pages/Auth/PassVerify'))
-let Verify = hocLazyLoad(() => import('./Pages/Verify'));
-let AddProduct = hocLazyLoad(() => import('./Pages/admin/AddProduct'))
-// import { Verify } from './Pages/Verify'
-import PrivateRoute from './Util/PrivateRoute'
-
+import EmailVerify from './Pages/Auth/EmailVerify'
+import ChangePassword from './Pages/Auth/ChangePassword'
+import PassVerify from './Pages/Auth/PassVerify'
+import { Verify } from './Pages/Verify'
+import AddProduct from './Pages/admin/AddProduct'
 
 
 function App() {
@@ -23,6 +19,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+
           {/*user public routes */}
           <Route path="/auth/signup" element={<Signup />} />
           <Route path="/auth/verifyEmail" element={<EmailVerify />} />
@@ -31,13 +28,10 @@ function App() {
           <Route path='/verify' element={<Verify />} />
           <Route path="/passVerify" element={<PassVerify />} />
           <Route path="/" element={<Home />} />
-
           <Route path="/products/:id" element={<ProductDetail />} />
 
-
-
           {/*user private routes */}
-          <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+          <Route path="/cart" element={<Cart />} />
 
           {/* admin route */}
           <Route path="/addProduct" element={<AddProduct />} />

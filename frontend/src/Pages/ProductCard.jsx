@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
 
 
     return (
-        <div className="relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:-translate-y-1 shadow-[4px_4px_15px] hover:border-indigo-500/30 hover:shadow-[0_16px_40px_rgba(99,102,241,0.15)] transition-all duration-300 cursor-pointer" onClick={() => cardClick(product._id, navigate)}>
+        <div className="relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:-translate-y-1 hover:border-indigo-500/30 hover:shadow-[0_16px_40px_rgba(99,102,241,0.15)] transition-all duration-300 cursor-pointer" onClick={() => cardClick(product._id, navigate)}>
 
             {stock === 0 && (
                 <span className="absolute bottom-3 left-3 z-10 text-[0.6rem] font-bold uppercase px-2 py-1 rounded bg-red-500/80 text-white">
@@ -26,8 +26,8 @@ export default function ProductCard({ product }) {
             </div>
 
             <div className="p-4">
-                <p className="text-[0.68rem] font-bold uppercase tracking-widest mb-1 text-orange-400">{brand}</p>
-                <h3 className="text-sm font-semibold  mb-2 line-clamp-2 leading-snug">{name}</h3>
+                <p className="text-[0.68rem] font-bold uppercase tracking-widest text-indigo-400 mb-1">{brand}</p>
+                <h3 className="text-sm font-semibold text-slate-100 mb-2 line-clamp-2 leading-snug">{name}</h3>
 
                 <div className="flex flex-wrap gap-1 mb-2">
                     {features?.ram && <span className="text-[0.6rem] px-1.5 py-0.5 rounded border border-white/10 text-slate-400 bg-white/5">{features.ram}</span>}
@@ -39,16 +39,16 @@ export default function ProductCard({ product }) {
                 <p className="text-[0.68rem] text-slate-500 mb-3">{reviewCount} reviews</p>
 
                 <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <span className="text-base font-bold text-orange-400" style={{ width: "-webkit-fill-available" }}>₹{price?.toLocaleString('en-IN')}</span>
+                    <span className="text-base font-bold text-cyan-300" style={{ width: "-webkit-fill-available" }}>₹{price?.toLocaleString('en-IN')}</span>
                     <button
                         disabled={stock === 0}
-                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-orange-700 text-orange-500 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-500 text-white'}`} onClick={(e) => { e.stopPropagation(), addToCart(product._id) }}
+                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}`} onClick={(e) => { e.stopPropagation(), addToCart(product._id) }}
                     > Add To Cart
                     </button>
                     <button
                         type="button"
                         disabled={stock === 0}
-                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-orange-700 text-orange-500 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-500 text-white'}`} onClick={(e) => buyNow(e, _id)}
+                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${stock === 0 ? 'bg-slate-700 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}`} onClick={(e) => buyNow(e, _id)}
                     >
                         {stock === 0 ? 'Sold Out' : 'Buy Now'}
                     </button>

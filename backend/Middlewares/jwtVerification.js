@@ -4,16 +4,16 @@ const jwt = require('jsonwebtoken')
 let jwtVerification = async (req, res, next) => {
 
     //get token
-    console.log("cookies", req.cookies);
-
     let token = req.cookies.token;
-    console.log(token, "token");
-
 
     let { email, mobNo, password, _id } = req.body;
 
     //find user with that email
     let user = await userModel.findOne({ email });
+    console.log(user);
+    console.log(email);
+
+
 
     //return if user not found
     if (!user) {
